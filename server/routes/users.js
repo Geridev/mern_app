@@ -1,7 +1,9 @@
 import express from "express";
 import bcrypt from "bcryptjs";
-import { Jwt } from "jsonwebtoken";
+import Jwt from "jsonwebtoken";
 import userModel from "../models/user.model.js";
+import dotenv from "dotenv";
+dotenv.config();
 
 const router = express.Router();
 
@@ -19,7 +21,7 @@ router.post("/login", async (req, res) => {
       return res.status(404).json({ message: "Jelszó nem megfelelő" });
     const token = Jwt.sign(
       { email: existingUser.email, id: existingUser._id },
-      "test"
+      process.env.SECRET
     );
     res.status(200).json({ result: existingUser, token });
   } catch (error) {
@@ -40,7 +42,10 @@ router.post("/register", async (req, res) => {
       password: hashedpassword,
       name: userName,
     });
-    const token = Jwt.sign({ email: result.email, id: result._id }, "test");
+    const token = Jwt.sign(
+      { email: result.email, id: result._id },
+      process.env.SECRET
+    );
     res.status(200).json(result, token);
   } catch (error) {
     res.status(500).json(error);

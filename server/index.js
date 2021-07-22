@@ -4,7 +4,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 
 import serverRouter from "./routes/servers.js";
-import serverRouter from "./routes/users.js";
+import userRouter from "./routes/users.js";
 
 dotenv.config();
 

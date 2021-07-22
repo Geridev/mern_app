@@ -13,11 +13,9 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.post("/add", async (req, res) => {
+router.post("/", async (req, res) => {
   const body = req.body;
-
   const newServer = new Servers(body);
-
   try {
     await newServer.save();
     res.status(200).json(newServer);

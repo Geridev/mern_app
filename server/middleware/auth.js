@@ -1,4 +1,4 @@
-import { Jwt } from "jsonwebtoken";
+import Jwt from "jsonwebtoken";
 
 const auth = async (req, res, next) => {
   try {
