@@ -16,10 +16,13 @@ app.use(cors());
 app.use("/servers", serverRouter);
 app.use("/user", userRouter);
 
-mongoose
-  .connect(process.env.CONNECTION_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => app.listen(port, () => console.log(`app listening to ${port}`)))
-  .catch((error) => console.log(error.message));
+mongoose.connect(process.env.CONNECTION_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false,
+  useCreateIndex: true,
+});
+
+app.listen(port, () => {
+  console.log(`app listening to ${port}`);
+});
