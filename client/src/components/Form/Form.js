@@ -1,11 +1,11 @@
-import react, { useState } from "react";
+import react, { useState, useEffect } from "react";
 import { TextField, Button, Typography, Paper } from "@material-ui/core";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import useStyles from "./styles";
-import { createServer } from "../../actions/servers";
+import { createServer, updateServer } from "../../actions/servers";
 
-const Form = () => {
+const Form = ({ currentId, setCurrentId }) => {
   const [serverData, setServerData] = useState({
     title: "",
     ip: "",
@@ -13,14 +13,33 @@ const Form = () => {
     game: "",
     description: "",
   });
-  const classes = useStyles();
+  const server = useSelector((state) =>
+    currentId ? state.servers.find((p) => p._id === currentId) : null
+  );
   const dispatch = useDispatch();
+  const classes = useStyles();
+
+  useEffect(() => {
+    if (server) setServerData(server);
+  }, [server]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createServer(serverData));
+
+    if (currentId === 0) {
+      dispatch(updateServer(currentId, serverData));
+      clear();
+    } else {
+      dispatch(createServer(serverData));
+      clear();
+    }
   };
-  const clear = () => {};
+
+  const clear = () => {
+    setCurrentId(0);
+    setServerData({ title: "", ip: "", port: "", game: "" });
+  };
+
   return (
     <Paper>
       <form
@@ -29,7 +48,9 @@ const Form = () => {
         className={`${classes.root} ${classes.form}`}
         onSubmit={handleSubmit}
       >
-        <Typography variant="h6">Server hozzáadása</Typography>
+        <Typography variant="h6">
+          Szerver {currentId ? "szerkesztés" : "készités"}
+        </Typography>
         <TextField
           name="title"
           variant="outlined"

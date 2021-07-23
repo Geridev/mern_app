@@ -16,3 +16,12 @@ export const createServer = (server) => async (dispatch) => {
     console.log(error);
   }
 };
+
+export const updateServer = (id, server) => async (dispatch) => {
+  try {
+    const { data } = await api.updateServer(id, server);
+    dispatch({ type: "UPDATE", payload: data });
+  } catch (error) {
+    console.log(error);
+  }
+};
