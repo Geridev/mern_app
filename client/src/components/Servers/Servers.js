@@ -10,8 +10,6 @@ const Servers = ({ setCurrentId }) => {
   const servers = useSelector((state) => state.servers);
   const classes = useStyles();
 
-  console.log(servers);
-
   return !servers.length ? (
     <CircularProgress />
   ) : (

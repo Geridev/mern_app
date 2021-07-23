@@ -33,7 +33,7 @@ const Server = ({ server, setCurrentId }) => {
           size="small"
           onClick={() => setCurrentId(server._id)}
         >
-          alam
+          <MoreHorizIcon fontSize="medium" />
         </Button>
       </div>
       <div className={classes.details}>
@@ -48,10 +48,10 @@ const Server = ({ server, setCurrentId }) => {
       </CardContent>
       <CardActions className={classes.cardActions}>
         <Button size="small" color="primary" onClick={() => {}}>
-          ez jelenleg haszontalan nekem
+          <ThumbUpAltIcon fontSize="small" />1
         </Button>
         <Button size="small" color="primary" onClick={() => {}}>
-          törlés
+          <DeleteIcon fontSize="small" /> Törlés
         </Button>
       </CardActions>
     </Card>

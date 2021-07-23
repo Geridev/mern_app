@@ -1,4 +1,4 @@
-import react, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { TextField, Button, Typography, Paper } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -13,31 +13,32 @@ const Form = ({ currentId, setCurrentId }) => {
     game: "",
     description: "",
   });
-  const server = useSelector((state) =>
-    currentId ? state.servers.find((p) => p._id === currentId) : null
-  );
   const dispatch = useDispatch();
   const classes = useStyles();
+
+  const server = useSelector((state) =>
+    currentId ? state.servers.find((server) => server._id === currentId) : null
+  );
 
   useEffect(() => {
     if (server) setServerData(server);
   }, [server]);
 
+  const clear = () => {
+    setCurrentId(0);
+    setServerData({ title: "", ip: "", port: "", game: "", description: "" });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (currentId === 0) {
+    if (currentId !== 0) {
       dispatch(updateServer(currentId, serverData));
       clear();
     } else {
       dispatch(createServer(serverData));
       clear();
     }
-  };
-
-  const clear = () => {
-    setCurrentId(0);
-    setServerData({ title: "", ip: "", port: "", game: "" });
   };
 
   return (
@@ -89,6 +90,16 @@ const Form = ({ currentId, setCurrentId }) => {
             setServerData({ ...serverData, game: e.target.value })
           }
         />
+        <TextField
+          name="description"
+          variant="outlined"
+          label="Leírás"
+          fullWidth
+          value={serverData.creator}
+          onChange={(e) =>
+            setServerData({ ...serverData, description: e.target.value })
+          }
+        />
         <Button
           className={classes.buttonSubmit}
           variant="contained"
@@ -106,7 +117,7 @@ const Form = ({ currentId, setCurrentId }) => {
           onClick={clear}
           fullWidth
         >
-          alma
+          clear
         </Button>
       </form>
     </Paper>
