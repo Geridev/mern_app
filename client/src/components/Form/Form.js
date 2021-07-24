@@ -26,7 +26,13 @@ const Form = ({ currentId, setCurrentId }) => {
 
   const clear = () => {
     setCurrentId(0);
-    setServerData({ title: "", ip: "", port: "", game: "", description: "" });
+    setServerData({
+      title: "",
+      ip: "",
+      port: "",
+      game: "",
+      description: "",
+    });
   };
 
   const handleSubmit = (e) => {
@@ -57,7 +63,7 @@ const Form = ({ currentId, setCurrentId }) => {
           variant="outlined"
           label="Név"
           fullWidth
-          value={serverData.creator}
+          value={serverData.title}
           onChange={(e) =>
             setServerData({ ...serverData, title: e.target.value })
           }
@@ -67,7 +73,7 @@ const Form = ({ currentId, setCurrentId }) => {
           variant="outlined"
           label="Ip"
           fullWidth
-          value={serverData.creator}
+          value={serverData.ip}
           onChange={(e) => setServerData({ ...serverData, ip: e.target.value })}
         />
         <TextField
@@ -75,7 +81,7 @@ const Form = ({ currentId, setCurrentId }) => {
           variant="outlined"
           label="Port"
           fullWidth
-          value={serverData.creator}
+          value={serverData.port}
           onChange={(e) =>
             setServerData({ ...serverData, port: e.target.value })
           }
@@ -85,7 +91,7 @@ const Form = ({ currentId, setCurrentId }) => {
           variant="outlined"
           label="Játék"
           fullWidth
-          value={serverData.creator}
+          value={serverData.game}
           onChange={(e) =>
             setServerData({ ...serverData, game: e.target.value })
           }
@@ -95,7 +101,7 @@ const Form = ({ currentId, setCurrentId }) => {
           variant="outlined"
           label="Leírás"
           fullWidth
-          value={serverData.creator}
+          value={serverData.description}
           onChange={(e) =>
             setServerData({ ...serverData, description: e.target.value })
           }
