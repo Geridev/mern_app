@@ -25,3 +25,12 @@ export const updateServer = (id, server) => async (dispatch) => {
     console.log(error);
   }
 };
+
+export const deleteServer = (id) => async (dispatch) => {
+  try {
+    await api.deleteServer(id);
+    dispatch({ type: "DELETE", payload: id });
+  } catch (error) {
+    console.log(error);
+  }
+};

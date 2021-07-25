@@ -15,8 +15,7 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const body = req.body;
-  const newServer = new Servers(body);
+  const newServer = new Servers(req.body);
   try {
     await newServer.save();
     res.status(200).json(newServer);
@@ -30,6 +29,14 @@ router.patch("/:id", async (req, res) => {
       new: true,
     });
     res.status(200).json(update);
+  } catch (error) {
+    res.status(404).json(error);
+  }
+});
+router.delete("/:id", async (req, res) => {
+  try {
+    const deleteserver = await Servers.findByIdAndRemove(req.params.id);
+    res.status(200).json(deleteserver);
   } catch (error) {
     res.status(404).json(error);
   }

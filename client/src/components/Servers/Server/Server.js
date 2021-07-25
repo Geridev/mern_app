@@ -10,11 +10,14 @@ import {
 import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
 import DeleteIcon from "@material-ui/icons/Delete";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
+import { useDispatch } from "react-redux";
 
 import useStyles from "./styles";
+import { deleteServer } from "../../../actions/servers";
 
 const Server = ({ server, setCurrentId }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   return (
     <Card className={classes.card}>
       <CardMedia
@@ -50,7 +53,11 @@ const Server = ({ server, setCurrentId }) => {
         <Button size="small" color="primary" onClick={() => {}}>
           <ThumbUpAltIcon fontSize="small" />1
         </Button>
-        <Button size="small" color="primary" onClick={() => {}}>
+        <Button
+          size="small"
+          color="primary"
+          onClick={() => dispatch(deleteServer(server._id))}
+        >
           <DeleteIcon fontSize="small" /> Törlés
         </Button>
       </CardActions>

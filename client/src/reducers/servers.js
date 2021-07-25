@@ -1,5 +1,7 @@
 export default (servers = [], action) => {
   switch (action.type) {
+    case "DELETE":
+      return servers.filter((server) => server._id !== action.payload);
     case "UPDATE":
       return servers.map((server) =>
         server._id === action.payload._id ? action.payload : server

@@ -56,7 +56,7 @@ const Form = ({ currentId, setCurrentId }) => {
         onSubmit={handleSubmit}
       >
         <Typography variant="h6">
-          Szerver {currentId ? "szerkesztés" : "készités"}
+          Szerver {currentId ? "szerkesztés" : "készítés"}
         </Typography>
         <TextField
           name="title"
