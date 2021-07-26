@@ -9,6 +9,6 @@ server {
  
   # Redirect requests made to /api
   location /api/ {
-    proxy_pass https:apihunszerver.herokuapp.com/;
+    proxy_pass https:apihunszerver.herokuapp.com;
   }
 }
