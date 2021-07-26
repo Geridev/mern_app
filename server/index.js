@@ -16,6 +16,10 @@ app.use(cors());
 app.use("/servers", serverRouter);
 app.use("/user", userRouter);
 
+app.get("/", async (req, res) => {
+  res.send("menj a /servers urlre");
+});
+
 mongoose.connect(process.env.CONNECTION_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
