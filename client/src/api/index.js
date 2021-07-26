@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = "https://apihunszerver.herokuapp.com/servers";
+const url = "http://localhost:5000/servers";
 
 export const fecthServers = () => axios.get(url);
 export const createServer = (newServer) => axios.post(url, newServer);
