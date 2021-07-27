@@ -18,6 +18,8 @@ import { deleteServer } from "../../../actions/servers";
 const Server = ({ server, setCurrentId }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const user = JSON.parse(localStorage.getItem("profile"));
+
   return (
     <Card className={classes.card}>
       <CardMedia
@@ -31,13 +33,16 @@ const Server = ({ server, setCurrentId }) => {
         <Typography variant="h6">{server.ip}</Typography>
       </div>
       <div className={classes.overlay2}>
-        <Button
-          style={{ color: "white" }}
-          size="small"
-          onClick={() => setCurrentId(server._id)}
-        >
-          <MoreHorizIcon fontSize="medium" />
-        </Button>
+        {(user?.result?.googleId === server?.creator ||
+          user?.result?._id === server?.creator) && (
+          <Button
+            style={{ color: "white" }}
+            size="small"
+            onClick={() => setCurrentId(server._id)}
+          >
+            <MoreHorizIcon fontSize="medium" />
+          </Button>
+        )}
       </div>
       <div className={classes.details}>
         <Typography variant="body2" color="textSecondary">
@@ -53,13 +58,16 @@ const Server = ({ server, setCurrentId }) => {
         <Button size="small" color="primary" onClick={() => {}}>
           <ThumbUpAltIcon fontSize="small" />1
         </Button>
-        <Button
-          size="small"
-          color="primary"
-          onClick={() => dispatch(deleteServer(server._id))}
-        >
-          <DeleteIcon fontSize="small" /> Törlés
-        </Button>
+        {(user?.result?.googleId === server?.creator ||
+          user?.result?._id === server?.creator) && (
+          <Button
+            size="small"
+            color="primary"
+            onClick={() => dispatch(deleteServer(server._id))}
+          >
+            <DeleteIcon fontSize="small" /> Törlés
+          </Button>
+        )}
       </CardActions>
     </Card>
   );

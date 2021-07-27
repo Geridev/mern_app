@@ -5,6 +5,8 @@ const serversSchema = mongoose.Schema({
   ip: { type: String, unique: true },
   port: { type: Number, require: true },
   game: { type: String, require: true },
+  creator: { type: String },
+  name: String,
   description: String,
   createdAt: {
     type: Date,

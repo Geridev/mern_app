@@ -15,6 +15,7 @@ const Form = ({ currentId, setCurrentId }) => {
   });
   const dispatch = useDispatch();
   const classes = useStyles();
+  const user = JSON.parse(localStorage.getItem("profile"));
 
   const server = useSelector((state) =>
     currentId ? state.servers.find((server) => server._id === currentId) : null
@@ -39,13 +40,25 @@ const Form = ({ currentId, setCurrentId }) => {
     e.preventDefault();
 
     if (currentId !== 0) {
-      dispatch(updateServer(currentId, serverData));
+      dispatch(
+        updateServer(currentId, { ...serverData, name: user?.result?.name })
+      );
       clear();
     } else {
-      dispatch(createServer(serverData));
+      dispatch(createServer({ ...serverData, name: user?.result?.name }));
       clear();
     }
   };
+
+  if (!user?.result?.name) {
+    return (
+      <Paper className={classes.paper}>
+        <Typography variant="h6" align="center">
+          Nem tudsz létrehozni server amig nem regisztráltál be.
+        </Typography>
+      </Paper>
+    );
+  }
 
   return (
     <Paper>

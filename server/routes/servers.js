@@ -1,7 +1,8 @@
 import express from "express";
-import Servers from "../models/servers.model.js";
-//import auth from "../middleware/auth.js";
 import mongoose from "mongoose";
+
+import Servers from "../models/servers.model.js";
+import auth from "../middleware/auth.js";
 
 const router = express.Router();
 
@@ -14,8 +15,13 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
-  const newServer = new Servers(req.body);
+router.post("/", auth, async (req, res) => {
+  const server = req.body;
+  const newServer = new Servers({
+    ...server,
+    creator: req.userId,
+    createdAt: new Date().toISOString(),
+  });
   try {
     await newServer.save();
     res.status(200).json(newServer);
@@ -23,7 +29,8 @@ router.post("/", async (req, res) => {
     res.status(404).json(error);
   }
 });
-router.patch("/:id", async (req, res) => {
+
+router.patch("/:id", auth, async (req, res) => {
   try {
     const update = await Servers.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
@@ -33,7 +40,8 @@ router.patch("/:id", async (req, res) => {
     res.status(404).json(error);
   }
 });
-router.delete("/:id", async (req, res) => {
+
+router.delete("/:id", auth, async (req, res) => {
   try {
     const deleteserver = await Servers.findByIdAndRemove(req.params.id);
     res.status(200).json(deleteserver);

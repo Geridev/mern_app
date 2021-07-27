@@ -7,46 +7,52 @@ dotenv.config();
 
 const router = express.Router();
 
-router.post("/login", async (req, res) => {
+router.post("/signin", async (req, res) => {
   const { email, password } = req.body;
   try {
-    const existingUser = await userModel.findOne({ email });
-    if (!existingUser)
-      return res.status(404).json({ message: "A felhasználó nem létezik" });
-    const isPasswordCorrect = await bcrypt.compare(
-      password,
-      existingUser.password
-    );
+    const oldUser = await userModel.findOne({ email });
+
+    if (!oldUser)
+      return res.status(404).json({ message: "User doesn't exist" });
+
+    const isPasswordCorrect = await bcrypt.compare(password, oldUser.password);
+
     if (!isPasswordCorrect)
-      return res.status(404).json({ message: "Jelszó nem megfelelő" });
+      return res.status(400).json({ message: "Invalid credentials" });
+
     const token = Jwt.sign(
-      { email: existingUser.email, id: existingUser._id },
+      { email: oldUser.email, id: oldUser._id },
       process.env.SECRET
     );
-    res.status(200).json({ result: existingUser, token });
+
+    res.status(200).json({ result: oldUser, token });
   } catch (error) {
     res.status(500).json(error);
   }
 });
-router.post("/register", async (req, res) => {
-  const { email, password, confirmPassword, userName } = req.body;
+
+router.post("/signup", async (req, res) => {
+  const { email, password, userName } = req.body;
   try {
-    const existingUser = await userModel.findOne({ email });
-    if (existingUser)
-      return res.status(400).json({ message: "A felhasználó már létezik" });
-    if (password !== confirmPassword)
-      return res.status(400).json({ message: "A jelszók nem egyeznek" });
-    const hashedpassword = await bcrypt.hash(password, 12);
+    const oldUser = await userModel.findOne({ email });
+
+    if (oldUser)
+      return res.status(400).json({ message: "User already exists" });
+
+    const hashedPassword = await bcrypt.hash(password, 12);
+
     const result = await userModel.create({
       email,
-      password: hashedpassword,
+      password: hashedPassword,
       name: userName,
     });
+
     const token = Jwt.sign(
       { email: result.email, id: result._id },
       process.env.SECRET
     );
-    res.status(200).json(result, token);
+
+    res.status(201).json({ result, token });
   } catch (error) {
     res.status(500).json(error);
   }
